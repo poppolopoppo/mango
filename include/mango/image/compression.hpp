@@ -15,7 +15,7 @@ namespace mango::image
 {
     class Surface;
 
-    static constexpr
+    constexpr
     u32 makeTextureCompression(u32 format, u32 index, u32 flags) noexcept
     {
         return flags | (index << 8) | format;
@@ -300,13 +300,13 @@ namespace mango
 
     namespace opengl
     {
-        static inline
+        inline
         u32 getTextureCompression(u32 format)
         {
             return image::TextureCompression(opengl::TextureFormat(format)).compression;
         }
 
-        static inline
+        inline
         u32 getTextureFormat(u32 compression)
         {
             return image::TextureCompression(compression).opengl;
@@ -315,13 +315,13 @@ namespace mango
 
     namespace vulkan
     {
-        static inline
+        inline
         u32 getTextureCompression(u32 format)
         {
             return image::TextureCompression(vulkan::TextureFormat(format)).compression;
         }
 
-        static inline
+        inline
         u32 getTextureFormat(u32 compression)
         {
             return image::TextureCompression(compression).vulkan;
@@ -330,13 +330,13 @@ namespace mango
 
     namespace dxgi
     {
-        static inline
+        inline
         u32 getTextureCompression(u32 format)
         {
             return image::TextureCompression(dxgi::TextureFormat(format)).compression;
         }
 
-        static inline
+        inline
         u32 getTextureFormat(u32 compression)
         {
             return image::TextureCompression(compression).dxgi;

@@ -67,7 +67,7 @@ namespace mango::filesystem
     */
 
     // major = high byte, minor = low byte (1.0 -> 0x0100)
-    constexpr u32 HBS_VERSION = 0x0100;
+    inline constexpr u32 HBS_VERSION = 0x0100;
 
     enum : u32
     {

@@ -151,25 +151,25 @@ namespace mango
 
 #if MANGO_CPP_VERSION >= 20
 
-    static constexpr
+    constexpr
     u32 u32_ror(u32 value, int count)
     {
         return std::rotr(value, count);
     }
 
-    static constexpr
+    constexpr
     u32 u32_rol(u32 value, int count)
     {
         return std::rotl(value, count);
     }
 
-    static constexpr
+    constexpr
     u64 u64_ror(u64 value, int count)
     {
         return std::rotr(value, count);
     }
 
-    static constexpr
+    constexpr
     u64 u64_rol(u64 value, int count)
     {
         return std::rotl(value, count);
@@ -177,28 +177,28 @@ namespace mango
 
 #else
 
-    static constexpr
+    constexpr
     u32 u32_rol(u32 value, int count)
     {
         count &= 31;
         return (value << count) | (value >> (32 - count));
     }
 
-    static constexpr
+    constexpr
     u32 u32_ror(u32 value, int count)
     {
         count &= 31;
         return (value >> count) | (value << (32 - count));
     }
 
-    static constexpr
+    constexpr
     u64 u64_rol(u64 value, int count)
     {
         count &= 63;
         return (value << count) | (value >> (64 - count));
     }
 
-    static constexpr
+    constexpr
     u64 u64_ror(u64 value, int count)
     {
         count &= 63;
@@ -211,31 +211,31 @@ namespace mango
     // unsigned mask builders
     // --------------------------------------------------------------
 
-    static constexpr
+    constexpr
     u8 u8_mask(u8 c0, u8 c1, u8 c2, u8 c3) noexcept
     {
         return u8((c3 << 6) | (c2 << 4) | (c1 << 2) | c0);
     }
 
-    static constexpr
+    constexpr
     u16 u16_mask(char c0, char c1) noexcept
     {
         return u16((c1 << 8) | c0);
     }
 
-    static constexpr
+    constexpr
     u16 u16_mask_rev(char c0, char c1) noexcept
     {
         return u16((c0 << 8) | c1);
     }
 
-    static constexpr
+    constexpr
     u32 u32_mask(char c0, char c1, char c2, char c3) noexcept
     {
         return u32((c3 << 24) | (c2 << 16) | (c1 << 8) | c0);
     }
 
-    static constexpr
+    constexpr
     u32 u32_mask_rev(char c0, char c1, char c2, char c3) noexcept
     {
         return u32((c0 << 24) | (c1 << 16) | (c2 << 8) | c3);
@@ -286,7 +286,7 @@ namespace mango
         return u8(byteclamp(value));
     }
 
-    static constexpr
+    constexpr
     int mul8bit(int a, int b)
     {
         // (a * b) / 255
@@ -294,28 +294,28 @@ namespace mango
         return (temp + (temp >> 8)) >> 8;
     }
 
-    static constexpr
+    constexpr
     int div255(int value)
     {
         // value / 255
         return (value + 128 + (value >> 8)) >> 8;
     }
 
-    static constexpr
+    constexpr
     u32 div_floor(u32 value, u32 multiple)
     {
         // plain division
         return value / multiple;
     }
 
-    static constexpr
+    constexpr
     u32 div_ceil(u32 value, u32 multiple)
     {
         // round to next multiple
         return (value + multiple - 1) / multiple;
     }
 
-    static constexpr
+    constexpr
     u32 round_ceil(u32 value, u32 multiple)
     {
         // round to next multiple
@@ -323,7 +323,7 @@ namespace mango
     }
 
     template <typename T>
-    static constexpr
+    constexpr
     T modulo(T value, T range)
     {
         using S = std::make_signed_t<T>;
@@ -342,7 +342,7 @@ namespace mango
         NOTE: crackle() and pop() functions removed for copyright reasons.
     */
 
-    static constexpr
+    constexpr
     u32 wang_hash(u32 seed)
     {
         // What's this weird-looking code?
@@ -414,56 +414,56 @@ namespace mango
     // scale / extend
     // ----------------------------------------------------------------------------
 
-    static constexpr
+    constexpr
     u16 u16_scale(u16 value, int from, int to)
     {
         // scale value "from" bits "to" bits
         return u16(value * ((1 << to) - 1) / ((1 << from) - 1));
     }
 
-    static constexpr
+    constexpr
     u32 u32_scale(u32 value, int from, int to)
     {
         // scale value "from" bits "to" bits
         return value * ((1u << to) - 1) / ((1u << from) - 1);
     }
 
-    static constexpr
+    constexpr
     u64 u64_scale(u64 value, int from, int to)
     {
         // scale value "from" bits "to" bits
         return value * ((1ull << to) - 1) / ((1ull << from) - 1);
     }
 
-    static constexpr
+    constexpr
     u8 u8_extend(u32 value, int from, int to)
     {
         // bit-pattern replicating scaling (can at most double the bits)
         return u8((value << (to - from)) | (value >> (from * 2 - to)));
     }
 
-    static constexpr
+    constexpr
     u16 u16_extend(u16 value, int from, int to)
     {
         // bit-pattern replicating scaling (can at most double the bits)
         return u16((value << (to - from)) | (value >> (from * 2 - to)));
     }
 
-    static constexpr
+    constexpr
     u32 u32_extend(u32 value, int from, int to)
     {
         // bit-pattern replicating scaling (can at most double the bits)
         return (value << (to - from)) | (value >> (from * 2 - to));
     }
 
-    static constexpr
+    constexpr
     u64 u64_extend(u64 value, int from, int to)
     {
         // bit-pattern replicating scaling (can at most double the bits)
         return (value << (to - from)) | (value >> (from * 2 - to));
     }
 
-    static constexpr
+    constexpr
     s16 s16_extend(s16 value, int bits)
     {
         // sign-extend to 16 bits
@@ -471,7 +471,7 @@ namespace mango
         return (value ^ mask) - mask;
     }
 
-    static constexpr
+    constexpr
     s32 s32_extend(s32 value, int bits)
     {
         // sign-extend to 32 bits
@@ -479,7 +479,7 @@ namespace mango
         return s32((value ^ mask) - mask);
     }
 
-    static constexpr
+    constexpr
     s64 s64_extend(s64 value, int bits)
     {
         // sign-extend to 64 bits
@@ -504,7 +504,7 @@ namespace mango
     // 16 bits
     // ----------------------------------------------------------------------------
 
-    static constexpr
+    constexpr
     u16 u16_select(u16 mask, u16 a, u16 b)
     {
         // bitwise mask ? a : b
@@ -527,7 +527,7 @@ namespace mango
 
     // least significant zero
 
-    static constexpr
+    constexpr
     u32 u32_mask_inclusive_lsz(u32 value)
     {
         // value:  xxxxxxx01111
@@ -537,7 +537,7 @@ namespace mango
         return value ^ (value + 1);
     }
 
-    static constexpr
+    constexpr
     u32 u32_mask_exclusive_lsz(u32 value)
     {
         // value:  xxxxxxx01111
@@ -547,7 +547,7 @@ namespace mango
         return value & (~value - 1);
     }
 
-    static constexpr
+    constexpr
     u32 u32_extend_inclusive_lsz(u32 value)
     {
         // value:  xxxxxxx01111
@@ -555,7 +555,7 @@ namespace mango
         return ~value | (value + 1);
     }
 
-    static constexpr
+    constexpr
     u32 u32_extend_exclusive_lsz(u32 value)
     {
         // value:  xxxxxxx01111
@@ -565,7 +565,7 @@ namespace mango
 
     // least significant bit
 
-    static constexpr
+    constexpr
     u32 u32_mask_inclusive_lsb(u32 value)
     {
         // value:  xxxxxx100000
@@ -575,7 +575,7 @@ namespace mango
         return value ^ (value - 1);
     }
 
-    static constexpr
+    constexpr
     u32 u32_mask_exclusive_lsb(u32 value)
     {
         // value:  xxxxxx100000
@@ -585,7 +585,7 @@ namespace mango
         return ~value & (value - 1);
     }
 
-    static constexpr
+    constexpr
     u32 u32_extend_inclusive_lsb(u32 value)
     {
         // value:  xxxxxxxx100
@@ -593,7 +593,7 @@ namespace mango
         return value | (0 - value);
     }
 
-    static constexpr
+    constexpr
     u32 u32_extend_exclusive_lsb(u32 value)
     {
         // value:  xxxxxxxx100
@@ -926,7 +926,7 @@ namespace mango
 
 #else
 
-    static constexpr
+    constexpr
     u32 u32_extract_bits(u32 value, u32 offset, u32 size)
     {
         return (value >> offset) & ((1 << size) - 1);
@@ -934,7 +934,7 @@ namespace mango
 
 #endif
 
-    static constexpr
+    constexpr
     u32 u32_parity(u32 value)
     {
         value ^= value >> 16;
@@ -1036,14 +1036,14 @@ namespace mango
 
 #endif
 
-    static constexpr
+    constexpr
     u32 u32_select(u32 mask, u32 a, u32 b)
     {
         // bitwise mask ? a : b
         return (mask & (a ^ b)) ^ b;
     }
 
-    static constexpr
+    constexpr
     bool u32_has_zero_byte(u32 value)
     {
         return ((value - 0x01010101) & ~value & 0x80808080) != 0;
@@ -1068,7 +1068,7 @@ namespace mango
         return mask + 1;
     }
 
-    static constexpr
+    constexpr
     u32 u32_clamp(u32 value, u32 low, u32 high)
     {
         return (value < low) ? low : (high < value) ? high : value;
@@ -1088,27 +1088,27 @@ namespace mango
 
     // least significant zero
 
-    static constexpr
+    constexpr
     u64 u64_mask_inclusive_lsz(u64 value)
     {
         // NOTE: 0xffffffffffffffff evaluates to 0xffffffffffffffff
         return value ^ (value + 1);
     }
 
-    static constexpr
+    constexpr
     u64 u64_mask_exclusive_lsz(u64 value)
     {
         // NOTE: 0xffffffffffffffff evaluates to 0xffffffffffffffff
         return value & (~value - 1);
     }
 
-    static constexpr
+    constexpr
     u64 u64_extend_inclusive_lsz(u64 value)
     {
         return ~value | (value + 1);
     }
 
-    static constexpr
+    constexpr
     u64 u64_extend_exclusive_lsz(u64 value)
     {
         return ~value ^ (value + 1);
@@ -1116,27 +1116,27 @@ namespace mango
 
     // least significant bit
 
-    static constexpr
+    constexpr
     u64 u64_mask_inclusive_lsb(u64 value)
     {
         // NOTE: 0 evaluates to 0xffffffffffffffff
         return value ^ (value - 1);
     }
 
-    static constexpr
+    constexpr
     u64 u64_mask_exclusive_lsb(u64 value)
     {
         // NOTE: 0 evaluates to 0xffffffffffffffff
         return ~value & (value - 1);
     }
 
-    static constexpr
+    constexpr
     u64 u64_extend_inclusive_lsb(u64 value)
     {
         return value | (0 - value);
     }
 
-    static constexpr
+    constexpr
     u64 u64_extend_exclusive_lsb(u64 value)
     {
         return value ^ (0 - value);
@@ -1478,7 +1478,7 @@ namespace mango
 
 #else
 
-    static constexpr
+    constexpr
     u64 u64_extract_bits(u64 value, int offset, int size)
     {
         return (value >> offset) & ((1ull << size) - 1);
@@ -1486,7 +1486,7 @@ namespace mango
 
 #endif
 
-    static constexpr
+    constexpr
     u64 u64_parity(u64 value)
     {
         value ^= value >> 32;
@@ -1603,14 +1603,14 @@ namespace mango
 
 #endif
 
-    static constexpr
+    constexpr
     u64 u64_select(u64 mask, u64 a, u64 b)
     {
         // bitwise mask ? a : b
         return (mask & (a ^ b)) ^ b;
     }
 
-    static constexpr
+    constexpr
     bool u64_has_zero_byte(u64 value)
     {
         return (~value & (value - 0x0101010101010101) & 0x8080808080808080) != 0;
@@ -1635,7 +1635,7 @@ namespace mango
         return mask + 1;
     }
 
-    static constexpr
+    constexpr
     u64 u64_clamp(u64 value, u64 low, u64 high)
     {
         return (value < low) ? low : (high < value) ? high : value;
