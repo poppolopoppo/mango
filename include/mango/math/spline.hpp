@@ -10,7 +10,7 @@
 namespace mango::math
 {
 
-    static constexpr double pi = 3.14159265358979323846264338327;
+    constexpr double pi = 3.14159265358979323846264338327;
 
     // ------------------------------------------------------------------
     // easing functions
