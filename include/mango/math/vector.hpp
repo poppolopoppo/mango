@@ -784,8 +784,8 @@ namespace mango::math
     };
 
     template <typename T>
-    concept resolves_to_vector = 
-        is_vector<T> || 
+    concept resolves_to_vector =
+        is_vector<T> ||
         is_simd_vector<T> ||
         is_shuffle_accessor<std::remove_cvref_t<T>>::value;
 
@@ -830,7 +830,7 @@ namespace mango::math
 
     template <typename... Args>
     concept has_vector = (is_vector<Args> || ...) &&
-        ((is_vector_or_scalar<Args> || 
+        ((is_vector_or_scalar<Args> ||
         is_shuffle_accessor<std::remove_cvref_t<Args>>::value) && ...);
 
     template <typename... Args>
@@ -986,7 +986,7 @@ namespace mango::math
     struct has_unique_indices<I> : std::true_type {};
 
     template <int I, int... Rest>
-    struct has_unique_indices<I, Rest...> 
+    struct has_unique_indices<I, Rest...>
         : std::bool_constant<((I != Rest) && ...) && has_unique_indices<Rest...>::value>
     {};
 
@@ -2111,7 +2111,7 @@ namespace mango::math
     // ------------------------------------------------------------------
 
     template <typename A, typename B>
-        requires resolves_to_vector<A> && (A::VectorSize == 2) && 
+        requires resolves_to_vector<A> && (A::VectorSize == 2) &&
                  resolves_to_vector<B> && (B::VectorSize == 2)
     inline auto dot(const A& va, const B& vb)
     {
@@ -2122,7 +2122,7 @@ namespace mango::math
     }
 
     template <typename A, typename B>
-        requires resolves_to_vector<A> && (A::VectorSize == 3) && 
+        requires resolves_to_vector<A> && (A::VectorSize == 3) &&
                  resolves_to_vector<B> && (B::VectorSize == 3)
     inline auto dot(const A& va, const B& vb)
     {
@@ -2133,7 +2133,7 @@ namespace mango::math
     }
 
     template <typename A, typename B>
-        requires resolves_to_vector<A> && (A::VectorSize == 4) && 
+        requires resolves_to_vector<A> && (A::VectorSize == 4) &&
                  resolves_to_vector<B> && (B::VectorSize == 4)
     inline auto dot(const A& va, const B& vb)
     {
@@ -2804,21 +2804,21 @@ namespace mango::math
     // This is enforced by requiring "VectorType" declaration in the Vector specialization.
 
     template <typename D, typename S>
-    static constexpr D reinterpret(S s) noexcept
+    constexpr D reinterpret(S s) noexcept
     {
         typename S::VectorType temp = s;
         return simd::reinterpret<typename D::VectorType>(temp);
     }
 
     template <typename D, typename S>
-    static constexpr D convert(S s) noexcept
+    constexpr D convert(S s) noexcept
     {
         typename S::VectorType temp = s;
         return simd::convert<typename D::VectorType>(temp);
     }
 
     template <typename D, typename S>
-    static constexpr D truncate(S s) noexcept
+    constexpr D truncate(S s) noexcept
     {
         typename S::VectorType temp = s;
         return simd::truncate<typename D::VectorType>(temp);
@@ -2833,8 +2833,8 @@ namespace mango::math
     //     f32x4_ustore(ptr, value);
 
 #define MATH_LOAD_STORE_ALIAS(T) \
-    static constexpr auto T##_uload = simd::T##_uload; \
-    static constexpr auto T##_ustore = simd::T##_ustore
+    inline constexpr auto T##_uload = simd::T##_uload; \
+    inline constexpr auto T##_ustore = simd::T##_ustore
 
     MATH_LOAD_STORE_ALIAS(s32x2);
     MATH_LOAD_STORE_ALIAS(u32x2);

@@ -28,9 +28,9 @@ namespace mango::math::detail
 namespace mango::math
 {
 
-    constexpr int native_float_bits = simd::native_float_bits;
-    constexpr int native_int_bits   = simd::native_int_bits;
-    constexpr int kernel_bits       = simd::kernel_bits;
+    inline constexpr int native_float_bits = simd::native_float_bits;
+    inline constexpr int native_int_bits   = simd::native_int_bits;
+    inline constexpr int kernel_bits       = simd::kernel_bits;
 
     // -----------------------------------------------------------------
     // Widest native hardware vectors (W = wide)

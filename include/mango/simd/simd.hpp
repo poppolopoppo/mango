@@ -1020,9 +1020,9 @@ namespace mango::simd
     // SIMD native and kernel bits
     // --------------------------------------------------------------
 
-    constexpr int native_float_bits = detail::widest_hardware_bits<f32x16, f32x8, f32x4, f32x2>();
-    constexpr int native_int_bits   = detail::widest_hardware_bits<s32x16, s32x8, s32x4, s32x2>();
-    constexpr int kernel_bits       = std::min(native_float_bits, native_int_bits);
+    inline constexpr int native_float_bits = detail::widest_hardware_bits<f32x16, f32x8, f32x4, f32x2>();
+    inline constexpr int native_int_bits   = detail::widest_hardware_bits<s32x16, s32x8, s32x4, s32x2>();
+    inline constexpr int kernel_bits       = std::min(native_float_bits, native_int_bits);
 
 #if defined(MANGO_ENABLE_SIMD)
     static_assert(kernel_bits == MANGO_SIMD_VECTOR_SIZE);

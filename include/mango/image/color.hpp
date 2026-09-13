@@ -13,13 +13,13 @@ namespace mango::image
 
     class Surface;
 
-    static constexpr
+    constexpr
     u32 makeBGRA(u32 red, u32 green, u32 blue, u32 alpha) noexcept
     {
         return (alpha << 24) | (red << 16) | (green << 8) | blue;
     }
 
-    static constexpr
+    constexpr
     u32 makeRGBA(u32 red, u32 green, u32 blue, u32 alpha) noexcept
     {
         return (alpha << 24) | (blue << 16) | (green << 8) | red;

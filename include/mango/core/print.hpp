@@ -27,7 +27,7 @@ namespace mango
     // print()
     // ----------------------------------------------------------------------------------
 
-    static inline
+    inline
     void print(Print target, const std::string& text)
     {
         if (isEnable(target))
@@ -36,7 +36,7 @@ namespace mango
         }
     }
 
-    static inline
+    inline
     void print(Print target, int indent, const std::string& text)
     {
         if (isEnable(target))
@@ -46,7 +46,7 @@ namespace mango
     }
 
     template <typename... T>
-    static inline
+    inline
     void print(Print target, fmt::format_string<T...> fmt, T&&... args)
     {
         if (isEnable(target))
@@ -56,7 +56,7 @@ namespace mango
     }
 
     template <typename... T>
-    static inline
+    inline
     void print(Print target, int indent, fmt::format_string<T...> fmt, T&&... args)
     {
         if (isEnable(target))
@@ -65,27 +65,27 @@ namespace mango
         }
     }
 
-    static inline
+    inline
     void print(const std::string& text)
     {
         print(Print::Verbose, text);
     }
 
-    static inline
+    inline
     void print(int indent, const std::string& text)
     {
         print(Print::Verbose, indent, text);
     }
 
     template <typename... T>
-    static inline
+    inline
     void print(fmt::format_string<T...> fmt, T&&... args)
     {
         print(Print::Verbose, fmt, std::forward<T>(args)...);
     }
 
     template <typename... T>
-    static inline
+    inline
     void print(int indent, fmt::format_string<T...> fmt, T&&... args)
     {
         print(Print::Verbose, indent, fmt, std::forward<T>(args)...);
@@ -95,7 +95,7 @@ namespace mango
     // printLine()
     // ----------------------------------------------------------------------------------
 
-    static inline
+    inline
     void printLine(Print target, const std::string& text)
     {
         if (isEnable(target))
@@ -104,7 +104,7 @@ namespace mango
         }
     }
 
-    static inline
+    inline
     void printLine(Print target, int indent, const std::string& text)
     {
         if (isEnable(target))
@@ -114,7 +114,7 @@ namespace mango
     }
 
     template <typename... T>
-    static inline
+    inline
     void printLine(Print target, fmt::format_string<T...> fmt, T&&... args)
     {
         if (isEnable(target))
@@ -124,7 +124,7 @@ namespace mango
     }
 
     template <typename... T>
-    static inline
+    inline
     void printLine(Print target, int indent, fmt::format_string<T...> fmt, T&&... args)
     {
         if (isEnable(target))
@@ -133,27 +133,27 @@ namespace mango
         }
     }
 
-    static inline
+    inline
     void printLine(const std::string& text)
     {
         printLine(Print::Verbose, text);
     }
 
-    static inline
+    inline
     void printLine(int indent, const std::string& text)
     {
         printLine(Print::Verbose, indent, text);
     }
 
     template <typename... T>
-    static inline
+    inline
     void printLine(fmt::format_string<T...> fmt, T&&... args)
     {
         printLine(Print::Verbose, fmt, std::forward<T>(args)...);
     }
 
     template <typename... T>
-    static inline
+    inline
     void printLine(int indent, fmt::format_string<T...> fmt, T&&... args)
     {
         printLine(Print::Verbose, indent, fmt, std::forward<T>(args)...);
