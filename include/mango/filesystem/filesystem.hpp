@@ -5,6 +5,7 @@
 #pragma once
 
 #include <mango/filesystem/hbs.hpp>
+#include <mango/filesystem/indexer.hpp>
 #include <mango/filesystem/mapper.hpp>
 #include <mango/filesystem/path.hpp>
 #include <mango/filesystem/file.hpp>

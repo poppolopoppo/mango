@@ -22,43 +22,63 @@ namespace mango::filesystem
     AbstractMapper* createMapperISO(ConstMemory parent, const std::string& password);
     AbstractMapper* createMapper7Z(ConstMemory parent, const std::string& password);
 
-    using CreateMapperFunc = AbstractMapper* (*)(ConstMemory, const std::string&);
-
     struct MapperExtension
     {
-        CreateMapperFunc create;
+        MapperCreateFunc create;
         std::string extension;
 
-        MapperExtension(CreateMapperFunc func, const std::string& extension)
+        MapperExtension(MapperCreateFunc func, const std::string& extension)
             : create(func)
             , extension(extension + "/")
         {
         }
-
-        ~MapperExtension()
-        {
-        }
     };
 
-    static std::vector<MapperExtension> g_extensions =
+    static std::vector<MapperExtension> g_extensions;
+
+    static const MapperExtension* findMapperExtension(const std::string& extension);
+
+    static
+    void registerBuiltinMappers()
     {
-        MapperExtension(createMapperZIP, ".zip"),
-        MapperExtension(createMapperZIP, ".cbz"),
-        MapperExtension(createMapperZIP, ".apk"),
-        MapperExtension(createMapperZIP, ".zipx"),
-        MapperExtension(createMapperHBS, ".hbs"),
-        MapperExtension(createMapperRAR, ".rar"),
-        MapperExtension(createMapperRAR, ".cbr"),
-        MapperExtension(createMapperISO, ".iso"),
-#if defined(MANGO_ENABLE_LZMA)
-        MapperExtension(createMapper7Z, ".7z"),
-        MapperExtension(createMapper7Z, ".cb7"),
-#endif
-    };
+        static bool initialized = false;
+        if (initialized)
+            return;
 
-    static inline
+        initialized = true;
+
+        g_extensions.emplace_back(createMapperZIP, ".zip");
+        g_extensions.emplace_back(createMapperZIP, ".cbz");
+        g_extensions.emplace_back(createMapperZIP, ".apk");
+        g_extensions.emplace_back(createMapperZIP, ".zipx");
+        g_extensions.emplace_back(createMapperZIP, ".pk3");
+        g_extensions.emplace_back(createMapperHBS, ".hbs");
+        g_extensions.emplace_back(createMapperRAR, ".rar");
+        g_extensions.emplace_back(createMapperRAR, ".cbr");
+        g_extensions.emplace_back(createMapperISO, ".iso");
+#if defined(MANGO_ENABLE_LZMA)
+        g_extensions.emplace_back(createMapper7Z, ".7z");
+        g_extensions.emplace_back(createMapper7Z, ".cb7");
+#endif
+    }
+
+    void registerMapper(MapperCreateFunc create, const std::string& extension)
+    {
+        registerBuiltinMappers();
+        g_extensions.emplace_back(create, toLower(extension));
+    }
+
+    bool isMapperRegistered(const std::string& extension)
+    {
+        registerBuiltinMappers();
+        return findMapperExtension(toLower(extension)) != nullptr;
+    }
+
+    static
     const MapperExtension* findMapperExtension(const std::string& extension)
     {
+        registerBuiltinMappers();
+
         for (const auto& node : g_extensions)
         {
             std::string_view node_extension(node.extension);
@@ -129,10 +149,10 @@ namespace mango::filesystem
         if (!name.empty())
         {
             files.emplace_back(name, size, flags, checksum);
- 
+
             const bool isFile = (flags & FileInfo::Directory) == 0;
             const bool isContainer = (flags & FileInfo::Container) != 0;
- 
+
             if (isFile && !isContainer && name.back() != '/' && Mapper::isCustomMapper(name))
             {
                 // file is a container; add it into the index again

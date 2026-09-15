@@ -18,6 +18,7 @@ set(MANGO_TESTS
     checksum
     aes
     ziptest
+    filesystem_mapper
     core_buffer
     core_endian
     core_slice

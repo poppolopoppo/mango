@@ -150,6 +150,16 @@ namespace mango
         }
     };
 
+    // Non-owning view into a parent allocation (e.g. uncompressed archive entry).
+    class VirtualMemoryView : public VirtualMemory
+    {
+    public:
+        explicit VirtualMemoryView(ConstMemory memory)
+        {
+            m_memory = memory;
+        }
+    };
+
     // -----------------------------------------------------------------------
     // aligned malloc / free
     // -----------------------------------------------------------------------

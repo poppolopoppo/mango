@@ -21,7 +21,7 @@
 #include <mango/core/string.hpp>
 #include <mango/filesystem/mapper.hpp>
 #include <mango/filesystem/path.hpp>
-#include "indexer.hpp"
+#include <mango/filesystem/indexer.hpp>
 
 #include "../../external/lzma/Alloc.h"
 #include "../../external/lzma/Ppmd7.h"

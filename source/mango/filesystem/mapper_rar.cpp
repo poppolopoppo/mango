@@ -15,7 +15,7 @@
 #include <mango/core/pointer.hpp>
 #include <mango/filesystem/mapper.hpp>
 #include <mango/filesystem/path.hpp>
-#include "indexer.hpp"
+#include <mango/filesystem/indexer.hpp>
 
 // Must match COMPILE_DEFINITIONS used for source/external/unrar/*.cpp
 // (SFX_MODULE;SILENT;NOVOLUME). Otherwise rar.hpp enables RAR_SMP here while

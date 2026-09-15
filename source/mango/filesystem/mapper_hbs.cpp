@@ -6,7 +6,7 @@
 #include <mango/filesystem/filesystem.hpp>
 #include <mango/filesystem/hbs.hpp>
 #include <mango/image/fourcc.hpp>
-#include "indexer.hpp"
+#include <mango/filesystem/indexer.hpp>
 
 namespace
 {

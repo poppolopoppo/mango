@@ -13,7 +13,7 @@
 #include <mango/core/print.hpp>
 #include <mango/filesystem/mapper.hpp>
 #include <mango/filesystem/path.hpp>
-#include "indexer.hpp"
+#include <mango/filesystem/indexer.hpp>
 
 /*
 https://courses.cs.ut.ee/MTAT.07.022/2015_fall/uploads/Main/dmitri-report-f15-16.pdf

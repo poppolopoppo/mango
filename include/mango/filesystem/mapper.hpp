@@ -112,6 +112,11 @@ namespace mango::filesystem
         virtual std::unique_ptr<VirtualMemory> map(const std::string& filename) = 0;
     };
 
+    using MapperCreateFunc = AbstractMapper* (*)(ConstMemory parent, const std::string& password);
+
+    void registerMapper(MapperCreateFunc create, const std::string& extension);
+    bool isMapperRegistered(const std::string& extension);
+
     class Mapper : public AbstractMapper
     {
     protected:
