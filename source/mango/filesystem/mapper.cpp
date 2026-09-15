@@ -34,51 +34,43 @@ namespace mango::filesystem
         }
     };
 
-    static std::vector<MapperExtension> g_extensions;
+    static
+    std::vector<MapperExtension> makeBuiltinMappers()
+    {
+        std::vector<MapperExtension> extensions;
+        extensions.emplace_back(createMapperZIP, ".zip");
+        extensions.emplace_back(createMapperZIP, ".cbz");
+        extensions.emplace_back(createMapperZIP, ".apk");
+        extensions.emplace_back(createMapperZIP, ".zipx");
+        extensions.emplace_back(createMapperZIP, ".pk3");
+        extensions.emplace_back(createMapperHBS, ".hbs");
+        extensions.emplace_back(createMapperRAR, ".rar");
+        extensions.emplace_back(createMapperRAR, ".cbr");
+        extensions.emplace_back(createMapperISO, ".iso");
+#if defined(MANGO_ENABLE_LZMA)
+        extensions.emplace_back(createMapper7Z, ".7z");
+        extensions.emplace_back(createMapper7Z, ".cb7");
+#endif
+        return extensions;
+    }
+
+    static std::vector<MapperExtension> g_extensions = makeBuiltinMappers();
 
     static const MapperExtension* findMapperExtension(const std::string& extension);
 
-    static
-    void registerBuiltinMappers()
-    {
-        static bool initialized = false;
-        if (initialized)
-            return;
-
-        initialized = true;
-
-        g_extensions.emplace_back(createMapperZIP, ".zip");
-        g_extensions.emplace_back(createMapperZIP, ".cbz");
-        g_extensions.emplace_back(createMapperZIP, ".apk");
-        g_extensions.emplace_back(createMapperZIP, ".zipx");
-        g_extensions.emplace_back(createMapperZIP, ".pk3");
-        g_extensions.emplace_back(createMapperHBS, ".hbs");
-        g_extensions.emplace_back(createMapperRAR, ".rar");
-        g_extensions.emplace_back(createMapperRAR, ".cbr");
-        g_extensions.emplace_back(createMapperISO, ".iso");
-#if defined(MANGO_ENABLE_LZMA)
-        g_extensions.emplace_back(createMapper7Z, ".7z");
-        g_extensions.emplace_back(createMapper7Z, ".cb7");
-#endif
-    }
-
     void registerMapper(MapperCreateFunc create, const std::string& extension)
     {
-        registerBuiltinMappers();
         g_extensions.emplace_back(create, toLower(extension));
     }
 
     bool isMapperRegistered(const std::string& extension)
     {
-        registerBuiltinMappers();
         return findMapperExtension(toLower(extension)) != nullptr;
     }
 
     static
     const MapperExtension* findMapperExtension(const std::string& extension)
     {
-        registerBuiltinMappers();
-
         for (const auto& node : g_extensions)
         {
             std::string_view node_extension(node.extension);
