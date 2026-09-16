@@ -2949,3 +2949,4 @@ namespace mango::math
 #include <mango/math/vector_float64x8.hpp>
 
 #include <mango/math/vector_gather.hpp>
+#include <mango/math/native.hpp>
