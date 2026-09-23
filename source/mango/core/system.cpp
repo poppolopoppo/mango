@@ -95,6 +95,8 @@ namespace mango
 
     static Context g_context;
 
+    static PrintHandler g_printHandler = nullptr;
+
     const Context& getSystemContext()
     {
         return g_context;
@@ -295,6 +297,21 @@ namespace mango
     // ----------------------------------------------------------------------------
     // print
     // ----------------------------------------------------------------------------
+
+    void setPrintHandler(PrintHandler handler)
+    {
+        g_printHandler = handler;
+    }
+
+    void resetPrintHandler()
+    {
+        g_printHandler = nullptr;
+    }
+
+    PrintHandler getPrintHandler()
+    {
+        return g_printHandler;
+    }
 
     void printEnable(Print target, bool enable)
     {

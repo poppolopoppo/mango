@@ -4,6 +4,7 @@
 */
 #pragma once
 
+#include <cstdio>
 #include <string>
 #include <mango/core/configure.hpp>
 #include <mango/core/string.hpp>
@@ -20,6 +21,16 @@ namespace mango
         Verbose
     };
 
+    // Opt-in redirect; null = default printf; still gated by isEnable.
+    // Handler is invoked synchronously and must copy before returning; must NOT store
+    // pointer (it points into a call-site temporary); logical message only, no trailing newline, indent already expanded.
+    // Storage lives in system.cpp: single instance even across DLL boundary.
+    using PrintHandler = void (*)(Print target, const char* text);
+
+    void setPrintHandler(PrintHandler handler);
+    void resetPrintHandler();
+    PrintHandler getPrintHandler();
+
     void printEnable(Print target, bool enable);
     bool isEnable(Print target);
 
@@ -32,7 +43,10 @@ namespace mango
     {
         if (isEnable(target))
         {
-            std::printf("%s", text.c_str());
+            if (PrintHandler handler = getPrintHandler())
+                handler(target, text.c_str());
+            else
+                std::printf("%s", text.c_str());
         }
     }
 
@@ -41,7 +55,13 @@ namespace mango
     {
         if (isEnable(target))
         {
-            std::printf("%*s%s", indent, "",  text.c_str());
+            if (PrintHandler handler = getPrintHandler())
+            {
+                std::string tmp = std::string(indent, ' ') + text;
+                handler(target, tmp.c_str());
+            }
+            else
+                std::printf("%*s%s", indent, "",  text.c_str());
         }
     }
 
@@ -51,7 +71,11 @@ namespace mango
     {
         if (isEnable(target))
         {
-            std::printf("%s", fmt::format(fmt, std::forward<T>(args)...).c_str());
+            std::string s = fmt::format(fmt, std::forward<T>(args)...);
+            if (PrintHandler handler = getPrintHandler())
+                handler(target, s.c_str());
+            else
+                std::printf("%s", s.c_str());
         }
     }
 
@@ -61,7 +85,16 @@ namespace mango
     {
         if (isEnable(target))
         {
-            std::printf("%*s%s", indent, "", fmt::format(fmt, std::forward<T>(args)...).c_str());
+            if (PrintHandler handler = getPrintHandler())
+            {
+                std::string s = std::string(indent, ' ') + fmt::format(fmt, std::forward<T>(args)...);
+                handler(target, s.c_str());
+            }
+            else
+            {
+                std::string s = fmt::format(fmt, std::forward<T>(args)...);
+                std::printf("%*s%s", indent, "", s.c_str());
+            }
         }
     }
 
@@ -100,7 +133,10 @@ namespace mango
     {
         if (isEnable(target))
         {
-            std::printf("%s\n", text.c_str());
+            if (PrintHandler handler = getPrintHandler())
+                handler(target, text.c_str());
+            else
+                std::printf("%s\n", text.c_str());
         }
     }
 
@@ -109,7 +145,13 @@ namespace mango
     {
         if (isEnable(target))
         {
-            std::printf("%*s%s\n", indent, "", text.c_str());
+            if (PrintHandler handler = getPrintHandler())
+            {
+                std::string tmp = std::string(indent, ' ') + text;
+                handler(target, tmp.c_str());
+            }
+            else
+                std::printf("%*s%s\n", indent, "", text.c_str());
         }
     }
 
@@ -119,7 +161,11 @@ namespace mango
     {
         if (isEnable(target))
         {
-            std::printf("%s\n", fmt::format(fmt, std::forward<T>(args)...).c_str());
+            std::string s = fmt::format(fmt, std::forward<T>(args)...);
+            if (PrintHandler handler = getPrintHandler())
+                handler(target, s.c_str());
+            else
+                std::printf("%s\n", s.c_str());
         }
     }
 
@@ -129,7 +175,16 @@ namespace mango
     {
         if (isEnable(target))
         {
-            std::printf("%*s%s\n", indent, "", fmt::format(fmt, std::forward<T>(args)...).c_str());
+            if (PrintHandler handler = getPrintHandler())
+            {
+                std::string s = std::string(indent, ' ') + fmt::format(fmt, std::forward<T>(args)...);
+                handler(target, s.c_str());
+            }
+            else
+            {
+                std::string s = fmt::format(fmt, std::forward<T>(args)...);
+                std::printf("%*s%s\n", indent, "", s.c_str());
+            }
         }
     }
 
